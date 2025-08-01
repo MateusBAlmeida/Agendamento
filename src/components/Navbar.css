@@ -1,0 +1,55 @@
+.navbar {
+  background: #1976d2;
+  padding: 1rem 2rem;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.navbar-menu {
+  display: flex;
+  gap: 1rem;
+}
+
+.navbar-item {
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.navbar-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.navbar-end {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-name {
+  font-weight: 500;
+}
+
+.logout-button {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid white;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.logout-button:hover {
+  background: white;
+  color: #1976d2;
+}

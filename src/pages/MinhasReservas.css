@@ -1,0 +1,69 @@
+.minhas-reservas {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.minhas-reservas h2 {
+  margin-bottom: 20px;
+}
+
+.reservas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.reserva-card {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.reserva-tipo {
+  background: #1976d2;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  margin-bottom: 10px;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+}
+
+.reserva-card h3 {
+  margin: 0 0 10px;
+  color: #333;
+}
+
+.reserva-periodo {
+  color: #666;
+  font-size: 0.875rem;
+}
+
+.reserva-periodo > div {
+  margin: 5px 0;
+}
+
+.no-reservas {
+  text-align: center;
+  padding: 40px;
+  background: white;
+  border-radius: 8px;
+  color: #666;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+}
+
+.error-message {
+  color: #d32f2f;
+  padding: 16px;
+  background: #ffebee;
+  border-radius: 4px;
+  margin: 16px 0;
+}

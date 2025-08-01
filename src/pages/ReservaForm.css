@@ -1,0 +1,87 @@
+.reserva-form-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.reserva-form {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group select {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.form-group:not(.time-group) input,
+.form-group:not(.time-group) select {
+  width: 100%;
+}
+
+.time-group {
+  margin-top: 20px;
+}
+
+.time-inputs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.time-inputs select,
+.time-inputs input {
+  width: 80px;
+}
+
+.time-inputs span {
+  color: #666;
+  font-weight: 500;
+}
+
+.form-group input[type="number"] {
+  width: 100px;
+}
+
+.error-message {
+  color: #d32f2f;
+  padding: 16px;
+  background: #ffebee;
+  border-radius: 4px;
+  margin: 16px 0;
+}
+
+.submit-button {
+  background: #1976d2;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.submit-button:hover {
+  background: #1565c0;
+}
+
+.submit-button:disabled {
+  background: #bdbdbd;
+  cursor: not-allowed;
+}

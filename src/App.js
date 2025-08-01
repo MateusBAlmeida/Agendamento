@@ -1,24 +1,56 @@
-import logo from './logo.svg';
+import React from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
+import Login from './pages/Login';
+import ReservaForm from './pages/ReservaForm';
+import MinhasReservas from './pages/MinhasReservas';
+import Navbar from './components/Navbar';
+import Calendario from './pages/Calendario';
 import './App.css';
+
+const PrivateRoute = ({ children }) => {
+  const { user } = useAuth();
+  return user ? children : <Navigate to="/" replace />;
+};
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AuthProvider>
+      <BrowserRouter>
+        <div className="app">
+          <Navbar />
+          <main className="main-content">
+            <Routes>
+              <Route path="/" element={<Login />} />
+              <Route
+                path="/nova-reserva"
+                element={
+                  <PrivateRoute>
+                    <ReservaForm />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/minhas-reservas"
+                element={
+                  <PrivateRoute>
+                    <MinhasReservas />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/calendario"
+                element={
+                  <PrivateRoute>
+                    <Calendario />
+                  </PrivateRoute>
+                }
+              />
+            </Routes>
+          </main>
+        </div>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 
