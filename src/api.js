@@ -4,6 +4,11 @@ const api = axios.create({
   baseURL: 'http://localhost:3001'
 });
 
+// Criar uma instância separada para chamadas públicas
+export const publicApi = axios.create({
+  baseURL: 'http://localhost:3001'
+});
+
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
   if (token) {
@@ -16,6 +21,11 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
+
+    // Ignora erros 401 para rotas públicas
+    if (originalRequest.url === '/reservas/calendario') {
+      return Promise.reject(error);
+    }
 
     // Se receber erro 401 e não for uma tentativa de refresh
     if (error.response?.status === 401 && !originalRequest._retry) {
@@ -43,4 +53,5 @@ api.interceptors.response.use(
   }
 );
 
+//export { publicApi };
 export default api;

@@ -13,6 +13,11 @@ const PrivateRoute = ({ children }) => {
   return user ? children : <Navigate to="/" replace />;
 };
 
+const PublicRoute = ({ children }) => {
+  const { user } = useAuth();
+  return !user ? children : <Navigate to="/calendario" replace />;
+};
+
 function App() {
   return (
     <AuthProvider>
@@ -21,7 +26,14 @@ function App() {
           <Navbar />
           <main className="main-content">
             <Routes>
-              <Route path="/" element={<Login />} />
+              <Route 
+                path="/" 
+                element={
+                  <PublicRoute>
+                    <Login />
+                  </PublicRoute>
+                } 
+              />
               <Route
                 path="/nova-reserva"
                 element={
@@ -40,11 +52,7 @@ function App() {
               />
               <Route
                 path="/calendario"
-                element={
-                  <PrivateRoute>
-                    <Calendario />
-                  </PrivateRoute>
-                }
+                element={<Calendario />}
               />
             </Routes>
           </main>

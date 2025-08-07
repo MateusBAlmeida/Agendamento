@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import api from '../api';
+import { publicApi } from '../api';
 import './Calendario.css';
 
 const DiaSemana = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
@@ -7,12 +7,6 @@ const Meses = [
   'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
   'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
 ];
-
-const HORARIOS = Array.from({ length: 48 }, (_, i) => {
-  const hour = Math.floor(i / 2);
-  const minute = i % 2 === 0 ? '00' : '30';
-  return `${String(hour).padStart(2, '0')}:${minute}`;
-});
 
 export default function Calendario() {
   const [tipo, setTipo] = useState('sala');
@@ -31,9 +25,14 @@ export default function Calendario() {
   const carregarReservasMes = async () => {
     try {
       setLoading(true);
+      // Ajusta para pegar o mês inteiro e alguns dias antes/depois
       const primeiroDia = new Date(mesAtual.getFullYear(), mesAtual.getMonth(), 1);
       const ultimoDia = new Date(mesAtual.getFullYear(), mesAtual.getMonth() + 1, 0);
       
+      // Ajusta para o início do dia
+      primeiroDia.setHours(0, 0, 0, 0);
+      ultimoDia.setHours(23, 59, 59, 999);
+
       const params = new URLSearchParams({
         tipo,
         ...(itemNome && { item_nome: itemNome }),
@@ -41,7 +40,16 @@ export default function Calendario() {
         data_fim: ultimoDia.toISOString()
       });
 
-      const response = await api.get(`/reservas/calendario?${params}`);
+      const response = await publicApi.get(`/reservas/calendario`);
+
+      // const response = await publicApi.get('/reservas/calendario', {
+      //   params: {
+      //     tipo,
+      //     ...(itemNome && { item_nome: itemNome }),
+      //     data_inicio: primeiroDia.toISOString(),
+      //     data_fim: ultimoDia.toISOString()
+      //   }
+      // });
       
       // Agrupa as reservas por dia
       const reservasDia = response.data.reduce((acc, reserva) => {
@@ -139,26 +147,7 @@ export default function Calendario() {
 
   return (
     <div className="calendario-container">
-      <div className="calendario-filtros">
-        <div className="filtro-grupo">
-          <label>Tipo:</label>
-          <select value={tipo} onChange={(e) => setTipo(e.target.value)}>
-            <option value="sala">Sala</option>
-            <option value="carro">Carro</option>
-          </select>
-        </div>
-
-        <div className="filtro-grupo">
-          <label>Nome do {tipo}:</label>
-          <input
-            type="text"
-            value={itemNome}
-            onChange={(e) => setItemNome(e.target.value)}
-            placeholder={`Nome do ${tipo}`}
-          />
-        </div>
-      </div>
-
+      
       <div className="calendario-header">
         <button onClick={() => mudarMes(-1)} className="mes-nav">&lt;</button>
         <h2>{Meses[mesAtual.getMonth()]} {mesAtual.getFullYear()}</h2>
@@ -210,7 +199,12 @@ export default function Calendario() {
             ) : (
               reservas.map(reserva => (
                 <div key={reserva.id} className="reserva-card">
-                  <div className="reserva-tipo">{reserva.tipo}</div>
+                  <div className="reserva-cabecalho">
+                    <div className="reserva-tipo">{reserva.tipo}</div>
+                    <div className={`reserva-status ${new Date(reserva.data_fim) < new Date() ? 'passada' : 'futura'}`}>
+                      {new Date(reserva.data_fim) < new Date() ? 'Concluída' : 'Agendada'}
+                    </div>
+                  </div>
                   <h4>{reserva.item_nome}</h4>
                   <div className="reserva-horario">
                     <span>{new Date(reserva.data_inicio).toLocaleTimeString('pt-BR', { 

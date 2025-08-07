@@ -8,8 +8,15 @@ export default function Login() {
   const [senha, setSenha] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const { login } = useAuth();
+  const { login, user } = useAuth();
   const navigate = useNavigate();
+
+  // Redireciona usuário já logado para minhas reservas
+  React.useEffect(() => {
+    if (user) {
+      navigate('/minhas-reservas', { replace: true });
+    }
+  }, [user, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,7 +26,7 @@ export default function Login() {
       const result = await login(email, senha);
       
       if (result.success) {
-        navigate('/nova-reserva');
+        navigate('/minhas-reservas');
       } else {
         setError(result.error);
       }
